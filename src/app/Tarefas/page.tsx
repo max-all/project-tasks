@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Header from "../../components/Header/index";
 
 export default function Home() {
   const [inputName, setInputName] = useState("");
@@ -31,32 +30,26 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <Header />
-      <div className="flex flex-col mx-10 justify-center items-center">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col">
-            <label>Tarefa:</label> <br />
-            <input
-              type="text"
-              className="border"
-              placeholder="Digite uma Tarefa"
-              value={inputName}
-              onChange={(event) => setInputName(event.target.value)}
-            />
-          </div>
-          <button type="submit">Adicionar Tarefa</button>
-        </form>
+    <main className="flex flex-col mx-10 justify-center items-center">
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col">
+          <label>Tarefa:</label> <br />
+          <input
+            type="text"
+            className="border"
+            placeholder="Digite uma Tarefa"
+            value={inputName}
+            onChange={(event) => setInputName(event.target.value)}
+          />
+        </div>
+        <button type="submit">Adicionar Tarefa</button>
+      </form>
 
-        <br />
-        <br />
-
-        <ul>
-          {tasks.map((task) => (
-            <li key={task}>{task}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task}>{task}</li>
+        ))}
+      </ul>
+    </main>
   );
 }
