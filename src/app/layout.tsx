@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
 import Header from "@/components/Header";
+import { ClientSessionProvider } from "@/components/ClientSessionProvider";
 
 export const metadata: Metadata = {
   title: "Teste Title",
@@ -13,11 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body>
-        <Header />
-        {children}
-      </body>
-    </html>
+    <ClientSessionProvider>
+      <html lang="pt-BR">
+        <body>
+          <Header />
+          {children}
+        </body>
+      </html>
+    </ClientSessionProvider>
   );
 }

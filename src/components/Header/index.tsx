@@ -1,6 +1,11 @@
+"use client";
+
+import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
 export default function Header() {
+  const { data: session, status } = useSession();
+
   return (
     <header className="flex justify-center px-10 py-4 bg-black">
       <section className="flex justify-between items-center min-w-full">
@@ -16,9 +21,24 @@ export default function Header() {
             </button>
           </Link>
         </nav>
-        <h2 className="flex justify-center items-center text-white w-28 border rounded-full">
-          Ola Max
-        </h2>
+
+        {status === "loading" ? (
+          <></>
+        ) : session ? (
+          <button
+            className="bg-white text-black p-sm min-w-24 max-w-sm rounded-full"
+            onClick={() => signOut()}
+          >
+            Olá {session.user?.name}
+          </button>
+        ) : (
+          <button
+            className="bg-white text-black p-sm min-w-24 max-w-sm rounded-full"
+            onClick={() => signIn("github")}
+          >
+            Acessar
+          </button>
+        )}
       </section>
     </header>
   );
