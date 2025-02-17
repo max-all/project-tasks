@@ -9,8 +9,8 @@ Este projeto foi criado como parte da minha jornada de aprendizado do react/next
 - [Licença](#licença)
 
 ## Pré-requisitos
-Certifique-se de ter o Node.js instalado em sua máquina. Você pode baixá-lo em [Node.js](https://nodejs.org/).
-Certifique-se de ter a extenção Prettier instalada em seu Visual Studio Code.
+1. Certifique-se de ter o Node.js instalado em sua máquina. Você pode baixá-lo em [Node.js](https://nodejs.org/).
+2. Certifique-se de ter a extenção Prettier instalada em seu Visual Studio Code.
 
 ## Instalação
 1. Clone o repositório:
