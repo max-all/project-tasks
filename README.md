@@ -26,13 +26,14 @@ cd project-tasks
 Instale as dependências:
 
 bash
-npm install
-Executando o Servidor de Desenvolvimento
+npm install ou yarn install
+
+## Executando o Servidor de Desenvolvimento
 Primeiro, execute o servidor de desenvolvimento:
 
 bash
 npm run dev
 Abra http://localhost:3000 com seu navegador para ver o resultado.
 
-Licença
+## Licença
 Este projeto está licenciado sob a Licença MIT
