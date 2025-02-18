@@ -1,6 +1,14 @@
+import Image from "next/image";
 import TextArea from "@/components/TextArea";
+import { getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const session = await getSession();
+  if (!session) {
+    redirect("/");
+  }
+
   return (
     <main className="min-h-screen flex flex-col">
       <section className="bg-gray-950 text-white p-10">
@@ -27,29 +35,21 @@ export default function Dashboard() {
               <span className="bg-blue-700 text-white px-2 rounded-sm cursor-pointer">
                 Publica
               </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#1d4ed8"
-                className="cursor-pointer"
-              >
-                <path d="M280-360v-240q0-33 23.5-56.5T360-680h326L583-783l57-57 200 200-200 200-57-56 103-104H360v240h-80Zm-80 240q-33 0-56.5-23.5T120-200v-600h80v600h480v-160h80v160q0 33-23.5 56.5T680-120H200Z" />
-              </svg>
+              <Image
+                src={"assets/icons/share.svg"}
+                width={20}
+                height={20}
+                alt="icon share"
+              />
             </section>
             <section className="flex space-x-4 mx-4 my-2">
               <p className="w-11/12 text-lg">Minha primeira Tarefa</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#dc2626"
-                className="cursor-pointer"
-              >
-                <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
-              </svg>
+              <Image
+                src={"assets/icons/delete.svg"}
+                width={24}
+                height={24}
+                alt="icon delete"
+              />
             </section>
           </article>
         </div>
