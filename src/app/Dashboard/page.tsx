@@ -1,10 +1,12 @@
 import Image from "next/image";
 import TextArea from "@/components/TextArea";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
-  const session = await getSession();
+  const session = await getServerSession(authOptions);
+
   if (!session) {
     redirect("/");
   }
@@ -36,7 +38,7 @@ export default async function Dashboard() {
                 Publica
               </span>
               <Image
-                src={"assets/icons/share.svg"}
+                src={"/assets/icons/share.svg"}
                 width={20}
                 height={20}
                 alt="icon share"
@@ -45,7 +47,7 @@ export default async function Dashboard() {
             <section className="flex space-x-4 mx-4 my-2">
               <p className="w-11/12 text-lg">Minha primeira Tarefa</p>
               <Image
-                src={"assets/icons/delete.svg"}
+                src={"/assets/icons/delete.svg"}
                 width={24}
                 height={24}
                 alt="icon delete"
