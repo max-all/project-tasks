@@ -22,13 +22,13 @@ Este projeto foi criado como parte da minha jornada de aprendizado do react/next
 git clone https://github.com/max-all/project-tasks.git
 ```
 
-Navegue até o diretório do projeto:
+2. Navegue até o diretório do projeto:
 
 ```bash
 cd project-tasks
 ```
 
-Instale as dependências:
+3. Instale as dependências:
 
 ```bash
 npm install
@@ -38,6 +38,24 @@ ou
 
 ```bash
 yarn install
+```
+4. Certifique-se de criar um [Github-App](https://github.com/settings/apps/) capturar as chaves para inserir no arquivo [Arquivo-env](#arquivo-env) para usar o next-auth
+
+## Arquivo-env
+
+1. Arquivo .env
+
+```bash
+GITHUB_ID= Gerado no Github-App
+GITHUB_SECRET= Gerado no Github-App
+NEXTAUTH_URL=http://localhost:3000/
+NEXTAUTH_SECRET= aqui pode gerar pelo gitBash
+```
+
+2. Gerando a chave para o NEXTAUTH_SECRET no terminal gitBash
+
+```bash
+openssl rand -base64 32
 ```
 
 ## Executando o Servidor de Desenvolvimento
