@@ -1,16 +1,12 @@
 import Image from "next/image";
 import TextArea from "@/components/TextArea";
-import useProtectedRoute from "@/hooks/useProtectedRoute";
+import { getSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
-export default function Dashboard() {
-  const { session, status } = useProtectedRoute();
-
-  if (status === "loading") {
-    return <p>Carregando...</p>;
-  }
-
+export default async function Dashboard() {
+  const session = await getSession();
   if (!session) {
-    return null;
+    redirect("/");
   }
 
   return (
