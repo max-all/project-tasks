@@ -1,14 +1,23 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import TextArea from "@/components/TextArea";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { redirect } from "next/navigation";
 
-export default async function Dashboard() {
-  const session = await getServerSession(authOptions);
+export default function Dashboard() {
+  const { status } = useSession();
+  const router = useRouter();
 
-  if (!session) {
-    redirect("/");
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
+    return <p>Carregando...</p>;
   }
 
   return (
