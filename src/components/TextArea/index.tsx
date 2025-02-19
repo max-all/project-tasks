@@ -1,10 +1,10 @@
-export default function TextArea() {
+import { HTMLProps } from "react";
+
+export default function TextArea({ ...Props }: HTMLProps<HTMLTextAreaElement>) {
   return (
     <textarea
-      name=""
-      id=""
       className="w-full h-24 p-4 rounded-lg text-black text-lg"
-      placeholder="Digite sua tarefa..."
+      {...Props}
     ></textarea>
   );
 }
