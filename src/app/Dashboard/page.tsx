@@ -10,18 +10,25 @@ export default function Dashboard() {
   const { status } = useSession();
   const router = useRouter();
 
+  const [task, setTask] = useState("");
+  const [taskPublic, setTaskPublic] = useState(false);
+  const [buttonDisable, setButtonDisable] = useState(true);
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
     }
   }, [status, router]);
 
-  const [task, setTask] = useState("");
-  const [taskPublic, setTaskPublic] = useState(false);
+  useEffect(() => {
+    if (task !== "" || null) {
+      setButtonDisable(false);
+    } else {
+      setButtonDisable(true);
+    }
+  }, [task]);
 
-  if (status === "loading") {
-    return <p>Carregando...</p>;
-  }
+  console.log(task);
 
   function handleTaskRegister(event: FormEvent) {
     event.preventDefault();
@@ -29,6 +36,10 @@ export default function Dashboard() {
     if (task != "") {
       alert("Teste");
     }
+  }
+
+  if (status === "loading") {
+    return <p>Carregando...</p>;
   }
 
   if (status === "authenticated") {
@@ -60,7 +71,8 @@ export default function Dashboard() {
             </section>
             <button
               type="submit"
-              className="w-full bg-blue-600 py-2 m-4 rounded-sm text-lg"
+              disabled={buttonDisable}
+              className="w-full bg-blue-600 py-2 m-4 rounded-sm text-lg disabled:bg-gray-600d"
             >
               Registrar
             </button>
