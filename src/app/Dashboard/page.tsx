@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
 import TextArea from "@/components/TextArea";
 
@@ -23,8 +23,12 @@ export default function Dashboard() {
     return <p>Carregando...</p>;
   }
 
-  function handleTaskRegister() {
-    alert("Teste");
+  function handleTaskRegister(event: FormEvent) {
+    event.preventDefault();
+
+    if (task != "") {
+      alert("Teste");
+    }
   }
 
   if (status === "authenticated") {
