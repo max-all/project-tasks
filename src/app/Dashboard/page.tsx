@@ -72,7 +72,7 @@ export default function Dashboard() {
             <button
               type="submit"
               disabled={buttonDisable}
-              className="w-full bg-blue-600 py-2 m-4 rounded-sm text-lg disabled:bg-gray-600d"
+              className="w-full bg-blue-600 py-2 m-4 rounded-sm text-lg disabled:bg-gray-600"
             >
               Registrar
             </button>
