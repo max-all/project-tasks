@@ -29,12 +29,12 @@ export default function Dashboard() {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
-    } else {
+    } else if (data?.user?.name) {
       async function loadTasks() {
         const taskRef = collection(db, "tasks");
         const q = query(
           taskRef,
-          orderBy("createdAt", "desc"),
+          orderBy("createdAt", "asc"),
           where("user", "==", data?.user?.name)
         );
 
@@ -130,30 +130,38 @@ export default function Dashboard() {
         <section className="flex-grow">
           <div className="flex - flex-col justify-center items-center max-w-screen-xl mx-auto p-4">
             <h1 className="text-3xl m-2">Minhas Tarefas</h1>
-            <article className="flex flex-col border border-neutral-400 rounded-sm w-full my-4">
-              {/* Section caso a tarefa seja publicas */}
-              <section className="flex space-x-4 mx-4 my-2">
-                <span className="bg-blue-700 text-white px-2 rounded-sm cursor-pointer">
-                  Publica
-                </span>
-                <Image
-                  src={"/assets/icons/share.svg"}
-                  width={20}
-                  height={20}
-                  alt="icon share"
-                />
-              </section>
-              {/* Section referente a tarefa */}
-              <section className="flex space-x-4 mx-4 my-2">
-                <p className="w-11/12 text-lg">Minha primeira Tarefa</p>
-                <Image
-                  src={"/assets/icons/delete.svg"}
-                  width={24}
-                  height={24}
-                  alt="icon delete"
-                />
-              </section>
-            </article>
+
+            {tasks.map((item) => (
+              <article
+                key={item.id}
+                className="flex flex-col border border-neutral-400 rounded-sm w-full my-4"
+              >
+                {/* Section caso a tarefa seja publicas */}
+                {item.taskPublic && (
+                  <section className="flex space-x-4 mx-4 my-2">
+                    <span className="bg-blue-700 text-white px-2 rounded-sm cursor-pointer">
+                      Publica
+                    </span>
+                    <Image
+                      src={"/assets/icons/share.svg"}
+                      width={20}
+                      height={20}
+                      alt="icon share"
+                    />
+                  </section>
+                )}
+                {/* Section referente a tarefa */}
+                <section className="flex space-x-4 mx-4 my-2">
+                  <p className="w-11/12 text-lg">{item.task}</p>
+                  <Image
+                    src={"/assets/icons/delete.svg"}
+                    width={24}
+                    height={24}
+                    alt="icon delete"
+                  />
+                </section>
+              </article>
+            ))}
           </div>
         </section>
       </main>
