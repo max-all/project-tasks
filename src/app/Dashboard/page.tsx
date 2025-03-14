@@ -4,12 +4,15 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import TextArea from "@/components/TextArea";
 import { Tasks } from "@/types/Tasks";
 
 import { db } from "@/services/firebaseConnection";
 import {
+  doc,
   addDoc,
+  deleteDoc,
   collection,
   query,
   orderBy,
@@ -85,6 +88,17 @@ export default function Dashboard() {
     }
   }
 
+  async function handleTaskDeleted(taskId: string) {
+    try {
+      const taskRef = doc(db, "tasks", taskId);
+      await deleteDoc(taskRef);
+
+      console.log("Tarefa excluída com sucesso!");
+    } catch (error) {
+      console.error("Erro ao deletar tarefa:", error);
+    }
+  }
+
   if (status === "loading") {
     return <p>Carregando...</p>;
   }
@@ -139,7 +153,7 @@ export default function Dashboard() {
                 {/* Section caso a tarefa seja publicas */}
                 {item.taskPublic && (
                   <section className="flex space-x-4 mx-4 my-2">
-                    <span className="bg-blue-700 text-white px-2 rounded-sm cursor-pointer">
+                    <span className="bg-blue-700 text-white px-2 rounded-sm cursor-default">
                       Publica
                     </span>
                     <Image
@@ -147,17 +161,26 @@ export default function Dashboard() {
                       width={20}
                       height={20}
                       alt="icon share"
+                      className="cursor-pointer"
                     />
                   </section>
                 )}
                 {/* Section referente a tarefa */}
-                <section className="flex space-x-4 mx-4 my-2">
-                  <p className="w-11/12 text-lg">{item.task}</p>
+                <section className=" mx-4 my-2 flex items-center justify-between">
+                  {item.taskPublic ? (
+                    <Link href={`/tasks/${item.id}`}>
+                      <p className="text-lg">{item.task}</p>
+                    </Link>
+                  ) : (
+                    <p className="text-lg">{item.task}</p>
+                  )}
                   <Image
                     src={"/assets/icons/delete.svg"}
                     width={24}
                     height={24}
                     alt="icon delete"
+                    className="cursor-pointer"
+                    onClick={() => handleTaskDeleted(item.id)}
                   />
                 </section>
               </article>
