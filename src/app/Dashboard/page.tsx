@@ -92,11 +92,15 @@ export default function Dashboard() {
     try {
       const taskRef = doc(db, "tasks", taskId);
       await deleteDoc(taskRef);
-
-      console.log("Tarefa excluída com sucesso!");
     } catch (error) {
       console.error("Erro ao deletar tarefa:", error);
     }
+  }
+
+  async function handleShare(taskId: string) {
+    await navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_URL}/task/${taskId}`
+    );
   }
 
   if (status === "loading") {
@@ -162,13 +166,14 @@ export default function Dashboard() {
                       height={20}
                       alt="icon share"
                       className="cursor-pointer"
+                      onClick={() => handleShare(item.id)}
                     />
                   </section>
                 )}
                 {/* Section referente a tarefa */}
                 <section className=" mx-4 my-2 flex items-center justify-between">
                   {item.taskPublic ? (
-                    <Link href={`/tasks/${item.id}`}>
+                    <Link href={`/task/${item.id}`}>
                       <p className="text-lg">{item.task}</p>
                     </Link>
                   ) : (
