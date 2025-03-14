@@ -16,7 +16,7 @@ export default function Header() {
                 Tarefas<span className="text-red-600 text-2xl ml-1">+</span>
               </h1>
             </Link>
-            <Link href={"/Dashboard"}>
+            <Link href={"/dashboard"}>
               <button className="bg-white text-black px-4 rounded-sm text-sm">
                 Meu Painel
               </button>
