@@ -4,8 +4,8 @@ import Header from "@/components/Header";
 import { ClientSessionProvider } from "@/components/ClientSessionProvider";
 
 export const metadata: Metadata = {
-  title: "Teste Title",
-  description: "Teste Description",
+  title: "Project-Tasks",
+  description: "Project Tasks",
 };
 
 export default function RootLayout({
