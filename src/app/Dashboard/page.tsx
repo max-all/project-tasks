@@ -4,12 +4,15 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import TextArea from "@/components/TextArea";
 import { Tasks } from "@/types/Tasks";
 
 import { db } from "@/services/firebaseConnection";
 import {
+  doc,
   addDoc,
+  deleteDoc,
   collection,
   query,
   orderBy,
@@ -85,6 +88,21 @@ export default function Dashboard() {
     }
   }
 
+  async function handleTaskDeleted(taskId: string) {
+    try {
+      const taskRef = doc(db, "tasks", taskId);
+      await deleteDoc(taskRef);
+    } catch (error) {
+      console.error("Erro ao deletar tarefa:", error);
+    }
+  }
+
+  async function handleShare(taskId: string) {
+    await navigator.clipboard.writeText(
+      `${process.env.NEXT_PUBLIC_URL}/task/${taskId}`
+    );
+  }
+
   if (status === "loading") {
     return <p>Carregando...</p>;
   }
@@ -120,7 +138,7 @@ export default function Dashboard() {
             <button
               type="submit"
               disabled={buttonDisable}
-              className="w-full bg-blue-600 py-2 m-4 rounded-sm text-lg disabled:bg-gray-600"
+              className="w-full bg-blue-600 py-2 m-4 rounded-lg text-lg disabled:bg-gray-600"
             >
               Registrar
             </button>
@@ -139,7 +157,7 @@ export default function Dashboard() {
                 {/* Section caso a tarefa seja publicas */}
                 {item.taskPublic && (
                   <section className="flex space-x-4 mx-4 my-2">
-                    <span className="bg-blue-700 text-white px-2 rounded-sm cursor-pointer">
+                    <span className="bg-blue-700 text-white px-2 rounded-sm cursor-default">
                       Publica
                     </span>
                     <Image
@@ -147,17 +165,27 @@ export default function Dashboard() {
                       width={20}
                       height={20}
                       alt="icon share"
+                      className="cursor-pointer"
+                      onClick={() => handleShare(item.id)}
                     />
                   </section>
                 )}
                 {/* Section referente a tarefa */}
-                <section className="flex space-x-4 mx-4 my-2">
-                  <p className="w-11/12 text-lg">{item.task}</p>
+                <section className=" mx-4 my-2 flex items-center justify-between">
+                  {item.taskPublic ? (
+                    <Link href={`/task/${item.id}`}>
+                      <p className="text-lg">{item.task}</p>
+                    </Link>
+                  ) : (
+                    <p className="text-lg">{item.task}</p>
+                  )}
                   <Image
                     src={"/assets/icons/delete.svg"}
                     width={24}
                     height={24}
                     alt="icon delete"
+                    className="cursor-pointer"
+                    onClick={() => handleTaskDeleted(item.id)}
                   />
                 </section>
               </article>
