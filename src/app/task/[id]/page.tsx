@@ -12,8 +12,8 @@ import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-import CommentBox from "./ComentBox";
-import CommentList from "./CommentList";
+import CommentBox from "../../../components/ComentBox";
+import CommentList from "../../../components/CommentList";
 
 type CommentType = {
   id: string;
@@ -23,11 +23,16 @@ type CommentType = {
   createdAt: Date;
 };
 
-export default async function TaskPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function TaskPage({ params }: PageProps) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
   const currentUserName = session?.user?.name;
 
-  const docRef = doc(db, "tasks", params.id);
+  const docRef = doc(db, "tasks", id);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) {
@@ -41,7 +46,7 @@ export default async function TaskPage({ params }: { params: { id: string } }) {
   }
 
   const commentsRef = collection(db, "comments");
-  const q = query(commentsRef, where("taskId", "==", params.id));
+  const q = query(commentsRef, where("taskId", "==", id));
   const querySnapshot = await getDocs(q);
 
   const comments: CommentType[] = querySnapshot.docs.map((doc) => {
@@ -57,7 +62,6 @@ export default async function TaskPage({ params }: { params: { id: string } }) {
 
   return (
     <main className="flex flex-col space-y-16 min-h-[90%] p-10 max-w-7xl mx-auto">
-      {/* Tarefa */}
       <article className="border rounded-lg border-gray-400 px-6 py-4">
         <p className="text-lg whitespace-pre-wrap">{task.task}</p>
         <div className="flex justify-between">
@@ -68,13 +72,11 @@ export default async function TaskPage({ params }: { params: { id: string } }) {
         </div>
       </article>
 
-      {/* Comentar */}
-      <CommentBox taskId={params.id} />
+      <CommentBox taskId={id} />
 
-      {/* Comentários */}
       <CommentList
         comments={comments}
-        currentUserName={currentUserName || "Anonimo"}
+        currentUserName={currentUserName || "Anônimo"}
         taskOwnerName={task.user}
       />
     </main>
