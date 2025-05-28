@@ -109,7 +109,7 @@ export default function Dashboard() {
 
   if (status === "authenticated") {
     return (
-      <main className="min-h-screen flex flex-col">
+      <main className="min-h-[90%] flex flex-col">
         {/* Section para Adicionar nova tarefa */}
         <section className="bg-gray-950 text-white p-10">
           <form
@@ -152,7 +152,7 @@ export default function Dashboard() {
             {tasks.map((item) => (
               <article
                 key={item.id}
-                className="flex flex-col border border-neutral-400 rounded-sm w-full my-4"
+                className="flex flex-col border border-neutral-400 rounded-sm w-full my-4 whitespace-pre-wrap"
               >
                 {/* Section caso a tarefa seja publicas */}
                 {item.taskPublic && (
