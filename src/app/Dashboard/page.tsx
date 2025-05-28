@@ -20,7 +20,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-export default function Dashboard() {
+export default function dashboard() {
   const { status, data } = useSession();
   const router = useRouter();
 
